@@ -1022,6 +1022,13 @@ h1, h2, h3 {
         height: 46px;
         font-size: 1.2rem;
     }
+.footer-row-contacts {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 10px;
+   
+}
 }
 
 /* --- TINY DEVICES (max-width: 480px) --- */
