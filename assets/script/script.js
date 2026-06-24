@@ -49,7 +49,7 @@ if (galleryCarousel) {
     const galleryNext = galleryCarousel.querySelector("[data-carousel-next]");
     const galleryCurrent = galleryCarousel.querySelector("[data-carousel-current]");
     const galleryProgress = galleryCarousel.querySelector("[data-carousel-progress]");
-    const autoplayDelay = 5500;
+    const autoplayDelay = 3500;
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let autoplayTimer;
 
@@ -132,4 +132,99 @@ if (galleryCarousel) {
     window.addEventListener("resize", updateGalleryState);
     updateGalleryState();
     startAutoplay();
+}
+
+const reviewsCarousel = document.querySelector("[data-reviews-carousel]");
+
+if (reviewsCarousel) {
+    const reviewsViewport = reviewsCarousel.querySelector("[data-reviews-viewport]");
+    const reviewsTrack = reviewsCarousel.querySelector(".reviews-grid");
+    const reviewCards = [...reviewsCarousel.querySelectorAll(".review-card")];
+    const reviewsPrev = reviewsCarousel.querySelector("[data-reviews-prev]");
+    const reviewsNext = reviewsCarousel.querySelector("[data-reviews-next]");
+    const reviewsCurrent = reviewsCarousel.querySelector("[data-reviews-current]");
+    const reviewsProgress = reviewsCarousel.querySelector("[data-reviews-progress]");
+    const reviewsAutoplayDelay = 3500;
+    const reviewsReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let reviewsAutoplayTimer;
+
+    const getReviewsStep = () => {
+        const cardWidth = reviewCards[0]?.getBoundingClientRect().width || 0;
+        const gap = parseFloat(window.getComputedStyle(reviewsTrack).columnGap) || 0;
+        return cardWidth + gap;
+    };
+
+    const updateReviewsState = () => {
+        const step = getReviewsStep();
+        const currentIndex = step ? Math.round(reviewsViewport.scrollLeft / step) : 0;
+        const isAtEnd = reviewsViewport.scrollLeft + reviewsViewport.clientWidth >= reviewsViewport.scrollWidth - 2;
+        const displayedIndex = isAtEnd ? reviewCards.length - 1 : currentIndex;
+
+        reviewsCurrent.textContent = String(Math.min(displayedIndex + 1, reviewCards.length)).padStart(2, "0");
+        reviewsPrev.disabled = reviewsViewport.scrollLeft <= 2;
+        reviewsNext.disabled = isAtEnd;
+    };
+
+    const moveReviews = (direction) => {
+        reviewsViewport.scrollBy({ left: direction * getReviewsStep(), behavior: "smooth" });
+    };
+
+    const resetReviewsProgress = () => {
+        reviewsCarousel.classList.remove("is-timing");
+        void reviewsProgress.offsetWidth;
+        reviewsCarousel.classList.add("is-timing");
+    };
+
+    const pauseReviewsAutoplay = () => {
+        window.clearTimeout(reviewsAutoplayTimer);
+        reviewsCarousel.classList.add("is-paused");
+    };
+
+    const startReviewsAutoplay = () => {
+        window.clearTimeout(reviewsAutoplayTimer);
+
+        if (reviewsReducedMotion || document.hidden) {
+            reviewsCarousel.classList.add("is-autoplay-disabled");
+            return;
+        }
+
+        reviewsCarousel.classList.remove("is-paused", "is-autoplay-disabled");
+        resetReviewsProgress();
+        reviewsAutoplayTimer = window.setTimeout(() => {
+            const isAtEnd = reviewsViewport.scrollLeft + reviewsViewport.clientWidth >= reviewsViewport.scrollWidth - 2;
+
+            if (isAtEnd) {
+                reviewsViewport.scrollTo({ left: 0, behavior: "smooth" });
+            } else {
+                moveReviews(1);
+            }
+
+            startReviewsAutoplay();
+        }, reviewsAutoplayDelay);
+    };
+
+    const moveReviewsManually = (direction) => {
+        moveReviews(direction);
+        startReviewsAutoplay();
+    };
+
+    reviewsPrev.addEventListener("click", () => moveReviewsManually(-1));
+    reviewsNext.addEventListener("click", () => moveReviewsManually(1));
+    reviewsViewport.addEventListener("scroll", updateReviewsState, { passive: true });
+    reviewsViewport.addEventListener("pointerdown", pauseReviewsAutoplay);
+    reviewsViewport.addEventListener("pointerup", startReviewsAutoplay);
+    reviewsViewport.addEventListener("pointercancel", startReviewsAutoplay);
+    reviewsCarousel.addEventListener("mouseenter", pauseReviewsAutoplay);
+    reviewsCarousel.addEventListener("mouseleave", startReviewsAutoplay);
+    reviewsCarousel.addEventListener("focusin", pauseReviewsAutoplay);
+    reviewsCarousel.addEventListener("focusout", (event) => {
+        if (!reviewsCarousel.contains(event.relatedTarget)) startReviewsAutoplay();
+    });
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) pauseReviewsAutoplay();
+        else startReviewsAutoplay();
+    });
+    window.addEventListener("resize", updateReviewsState);
+    updateReviewsState();
+    startReviewsAutoplay();
 }
