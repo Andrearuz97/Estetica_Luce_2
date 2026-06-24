@@ -876,16 +876,10 @@ h1, h2, h3 {
     transition: var(--transition-smooth);
 }
 
-.btn-google-reviews:not(.is-placeholder):hover {
+.btn-google-reviews:hover {
     color: var(--white);
     background: #786957;
     border-color: #786957;
-}
-
-.btn-google-reviews.is-placeholder {
-    cursor: default;
-    opacity: 0.72;
-    pointer-events: none;
 }
 
 .reviews-footer > span {
