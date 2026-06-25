@@ -2,42 +2,196 @@ const yearSpan = document.getElementById("current-year");
 const hamburgerToggle = document.getElementById("hamburger-toggle");
 const navLinks = document.querySelector(".nav-links");
 const scrollTopBtn = document.getElementById("scroll-top-btn");
+const pageLanguage = document.documentElement.lang?.toLowerCase().startsWith("en") ? "en" : "it";
+const cookieConsentKey = "esteticaLuceCookieConsent";
+const menuLabels = {
+    it: { open: "Apri menu", close: "Chiudi menu" },
+    en: { open: "Open menu", close: "Close menu" },
+};
 
-yearSpan.textContent = new Date().getFullYear();
+if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+}
 
 const setMenuState = (isOpen) => {
     hamburgerToggle.classList.toggle("active", isOpen);
     navLinks.classList.toggle("active", isOpen);
     document.body.classList.toggle("menu-open", isOpen);
     hamburgerToggle.setAttribute("aria-expanded", String(isOpen));
-    hamburgerToggle.setAttribute("aria-label", isOpen ? "Chiudi menu" : "Apri menu");
+    hamburgerToggle.setAttribute("aria-label", isOpen ? menuLabels[pageLanguage].close : menuLabels[pageLanguage].open);
 };
 
-hamburgerToggle.addEventListener("click", () => {
-    setMenuState(!navLinks.classList.contains("active"));
-});
+if (hamburgerToggle && navLinks) {
+    hamburgerToggle.addEventListener("click", () => {
+        setMenuState(!navLinks.classList.contains("active"));
+    });
 
-navLinks.querySelectorAll("a").forEach((item) => {
-    item.addEventListener("click", () => setMenuState(false));
-});
+    navLinks.querySelectorAll("a").forEach((item) => {
+        item.addEventListener("click", () => setMenuState(false));
+    });
 
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") setMenuState(false);
-});
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") setMenuState(false);
+    });
 
-window.addEventListener("resize", () => {
-    if (window.innerWidth > 992) setMenuState(false);
-});
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 992) setMenuState(false);
+    });
+}
 
 const updateScrollTopButton = () => {
     scrollTopBtn.classList.toggle("show", window.scrollY > 300);
 };
 
-updateScrollTopButton();
-window.addEventListener("scroll", updateScrollTopButton, { passive: true });
-scrollTopBtn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-});
+if (scrollTopBtn) {
+    updateScrollTopButton();
+    window.addEventListener("scroll", updateScrollTopButton, { passive: true });
+    scrollTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+}
+
+const cookieTexts = {
+    it: {
+        title: "Cookie e contenuti esterni",
+        message: "Usiamo cookie tecnici per far funzionare il sito. Con Accetta tutto abiliti anche contenuti esterni, come la mappa Google, che possono usare cookie propri.",
+        accept: "Accetta tutto",
+        essential: "Solo necessari",
+        policy: "Cookie Policy",
+        mapTitle: "Carica la mappa",
+        mapText: "La mappa Google viene caricata solo dopo il consenso ai contenuti esterni.",
+        mapButton: "Accetta e carica mappa",
+    },
+    en: {
+        title: "Cookies and external content",
+        message: "We use technical cookies to keep the website working. By choosing Accept all, you also enable external content such as Google Maps, which may use its own cookies.",
+        accept: "Accept all",
+        essential: "Necessary only",
+        policy: "Cookie Policy",
+        mapTitle: "Load the map",
+        mapText: "Google Maps is loaded only after consent for external content.",
+        mapButton: "Accept and load map",
+    },
+};
+
+const getCookieConsent = () => {
+    try {
+        return window.localStorage.getItem(cookieConsentKey);
+    } catch (error) {
+        return null;
+    }
+};
+
+const setCookieConsent = (value) => {
+    try {
+        window.localStorage.setItem(cookieConsentKey, value);
+    } catch (error) {
+        // The banner still closes if localStorage is unavailable.
+    }
+};
+
+const loadCookieControlledContent = () => {
+    document.querySelectorAll("[data-cookie-src]").forEach((item) => {
+        if (!item.getAttribute("src")) {
+            item.setAttribute("src", item.dataset.cookieSrc);
+        }
+
+        item.classList.remove("is-deferred");
+        item.closest(".map-section")?.classList.remove("has-cookie-pending");
+    });
+};
+
+const updateCookieControlledContent = () => {
+    const consent = getCookieConsent();
+
+    if (consent === "all") {
+        loadCookieControlledContent();
+        return;
+    }
+
+    document.querySelectorAll("[data-cookie-src]").forEach((item) => {
+        item.removeAttribute("src");
+        item.classList.add("is-deferred");
+        item.closest(".map-section")?.classList.add("has-cookie-pending");
+    });
+};
+
+const createCookieBanner = () => {
+    if (document.querySelector("[data-cookie-banner]")) return;
+
+    const texts = cookieTexts[pageLanguage];
+    const policyLink = document.querySelector("[data-cookie-policy-link]")?.getAttribute("href") || "#";
+    const banner = document.createElement("section");
+    banner.className = "cookie-banner";
+    banner.setAttribute("data-cookie-banner", "");
+    banner.setAttribute("aria-label", texts.title);
+    banner.innerHTML = `
+        <h2>${texts.title}</h2>
+        <p>${texts.message}</p>
+        <div class="cookie-banner-actions">
+            <button type="button" class="btn-luxury" data-cookie-accept-all>${texts.accept}</button>
+            <button type="button" class="btn-luxury btn-luxury-secondary" data-cookie-essential>${texts.essential}</button>
+            <a href="${policyLink}" class="cookie-link-button">${texts.policy}</a>
+        </div>
+    `;
+
+    document.body.appendChild(banner);
+
+    banner.querySelector("[data-cookie-accept-all]").addEventListener("click", () => {
+        setCookieConsent("all");
+        banner.hidden = true;
+        loadCookieControlledContent();
+    });
+
+    banner.querySelector("[data-cookie-essential]").addEventListener("click", () => {
+        setCookieConsent("essential");
+        banner.hidden = true;
+        updateCookieControlledContent();
+    });
+};
+
+const setupCookieConsent = () => {
+    const texts = cookieTexts[pageLanguage];
+
+    document.querySelectorAll("[data-map-consent-title]").forEach((item) => {
+        item.textContent = texts.mapTitle;
+    });
+
+    document.querySelectorAll("[data-map-consent-text]").forEach((item) => {
+        item.textContent = texts.mapText;
+    });
+
+    document.querySelectorAll("[data-cookie-accept-map]").forEach((item) => {
+        item.textContent = texts.mapButton;
+        item.addEventListener("click", () => {
+            setCookieConsent("all");
+            document.querySelector("[data-cookie-banner]")?.setAttribute("hidden", "");
+            loadCookieControlledContent();
+        });
+    });
+
+    document.querySelectorAll("[data-cookie-reset]").forEach((item) => {
+        item.addEventListener("click", () => {
+            try {
+                window.localStorage.removeItem(cookieConsentKey);
+            } catch (error) {
+                // Ignore storage errors.
+            }
+
+            updateCookieControlledContent();
+            createCookieBanner();
+            document.querySelector("[data-cookie-banner]")?.removeAttribute("hidden");
+        });
+    });
+
+    updateCookieControlledContent();
+
+    if (!getCookieConsent()) {
+        createCookieBanner();
+    }
+};
+
+setupCookieConsent();
 
 const galleryCarousel = document.querySelector("[data-gallery-carousel]");
 
