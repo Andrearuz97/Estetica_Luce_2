@@ -9,20 +9,6 @@ const menuLabels = {
     en: { open: "Open menu", close: "Close menu" },
 };
 
-const touchInputQuery = window.matchMedia("(hover: none), (pointer: coarse)");
-const enableTouchMode = () => document.documentElement.classList.add("is-touch-device");
-
-if (touchInputQuery.matches) {
-    enableTouchMode();
-}
-
-document.addEventListener("touchstart", enableTouchMode, { passive: true, once: true });
-document.addEventListener("pointerdown", (event) => {
-    if (event.pointerType && event.pointerType !== "mouse") {
-        enableTouchMode();
-    }
-}, { passive: true });
-
 if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
 }
