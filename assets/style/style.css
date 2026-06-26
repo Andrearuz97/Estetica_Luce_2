@@ -390,6 +390,32 @@ h1, h2, h3 {
     letter-spacing: 0.035em;
 }
 
+.hero-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    width: min(100%, 390px);
+    margin: 0 auto;
+}
+
+.hero-actions .btn-luxury {
+    width: 100%;
+}
+
+.hero-actions .btn-luxury-secondary {
+    background: rgba(255, 250, 243, 0.68);
+    color: #786957;
+    border-color: rgba(120, 105, 87, 0.38);
+    box-shadow: 0 10px 24px rgba(91, 74, 55, 0.08);
+}
+
+.hero-actions .btn-luxury-secondary:hover {
+    background: #fffaf3;
+    color: #5f5346;
+    border-color: rgba(120, 105, 87, 0.62);
+}
+
 .btn-luxury {
     display: inline-flex;
     align-items: center;
