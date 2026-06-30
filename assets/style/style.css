@@ -180,7 +180,7 @@ h1, h2, h3 {
     object-fit: cover;
     object-position: center;
     mix-blend-mode: multiply;
-    filter: contrast(0.94);
+   /* filter: contrast(0.94);*/
 }
 
 .nav-links {
@@ -1383,97 +1383,13 @@ h1, h2, h3 {
 }
 
 .products-intro-image {
-    min-height: 520px;
+    --products-intro-logo-position: center 34%;
+    min-height: 560px;
     background:
         linear-gradient(to top, rgba(37, 31, 25, 0.42), rgba(37, 31, 25, 0.06)),
-        url('../img/Smalti.jpg') center / cover no-repeat;
+        url('../img/Logo-parete.jpg') var(--products-intro-logo-position) / cover no-repeat;
     border: 1px solid rgba(126, 105, 81, 0.13);
     box-shadow: 0 24px 70px rgba(86, 66, 45, 0.1);
-}
-
-.products-categories-section {
-    padding: 112px 50px 120px;
-    background: var(--white);
-}
-
-.product-sales-section {
-    background: var(--bg-cream);
-}
-
-.product-category-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 22px;
-    max-width: 1180px;
-    margin: 0 auto;
-}
-
-.product-category-card {
-    min-height: 330px;
-    padding: 34px 28px;
-    background: #fbf8f3;
-    border: 1px solid rgba(126, 105, 81, 0.12);
-    border-top: 3px solid #7b8a72;
-    border-radius: 8px;
-    box-shadow: 0 16px 38px rgba(83, 65, 45, 0.055);
-    transition: var(--transition-smooth);
-}
-
-.product-category-card:nth-child(2) {
-    border-top-color: #b28b80;
-}
-
-.product-category-card:nth-child(3) {
-    border-top-color: #977d5d;
-}
-
-.product-category-card:nth-child(4) {
-    border-top-color: #74818a;
-}
-
-.product-category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 24px 52px rgba(83, 65, 45, 0.09);
-}
-
-.product-category-icon {
-    display: grid;
-    place-items: center;
-    width: 48px;
-    height: 48px;
-    margin-bottom: 24px;
-    color: #5f5143;
-    background: #efe5d7;
-    border-radius: 50%;
-    font-size: 1.15rem;
-}
-
-.product-category-card h3 {
-    margin-bottom: 14px;
-    color: #39332d;
-    font-size: 1.55rem;
-    line-height: 1.15;
-}
-
-.product-category-card p {
-    margin-bottom: 22px;
-    color: var(--light-text);
-    font-size: 0.92rem;
-    font-weight: 300;
-}
-
-.product-category-card ul {
-    display: grid;
-    gap: 8px;
-    list-style: none;
-}
-
-.product-category-card li {
-    color: #5f554c;
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
 }
 
 .marzia-products-section {
@@ -1528,31 +1444,13 @@ h1, h2, h3 {
     transition: var(--transition-smooth);
 }
 
-.marzia-line-orange { --line-color: #FF9900; --line-color-alt: #D48309; --line-soft: #FFF3E0; }
-.marzia-line-red { --line-color: #DD0806; --line-color-alt: #BA110E; --line-soft: #FBE1E1; }
-.marzia-line-lime { --line-color: #99CC00; --line-color-alt: #85AA09; --line-soft: #F3F9E0; }
-.marzia-line-lavender { --line-color: #CC99FF; --line-color-alt: #AD83D0; --line-soft: #F9F3FF; }
-.marzia-line-blue { --line-color: #3366FF; --line-color-alt: #355BD0; --line-soft: #E7EDFF; }
-.marzia-line-tangerine { --line-color: #FF6600; --line-color-alt: #D45B09; --line-soft: #FFEDE0; }
-.marzia-line-deep-teal { --line-color: #11807F; --line-color-alt: #1B6F6D; --line-soft: #E2F0F0; }
 .marzia-line-teal { --line-color: #008080; --line-color-alt: #0D6F6D; --line-soft: #E0F0F0; }
 .marzia-line-cyan { --line-color: #33CCCC; --line-color-alt: #35AAA9; --line-soft: #E7F9F9; }
 .marzia-line-green { --line-color: #92D050; --line-color-alt: #7FAD48; --line-soft: #F2F9EA; }
-.marzia-line-yellow { --line-color: #FFFF00; --line-color-alt: #D4D209; --line-soft: #FFFFE0; }
 .marzia-line-bronze { --line-color: #90713A; --line-color-alt: #7E6337; --line-soft: #F2EEE7; }
-.marzia-line-black { --line-color: #000000; --line-color-alt: #5F5143; --line-soft: #E0E0E0; }
-.marzia-line-silver { --line-color: #B3B3B3; --line-color-alt: #999795; --line-soft: #F6F6F6; }
-.marzia-line-bright-green { --line-color: #4EE257; --line-color-alt: #4ABC4D; --line-soft: #EAFCEB; }
-.marzia-line-gray { --line-color: #999999; --line-color-alt: #858381; --line-soft: #F3F3F3; }
-.marzia-line-sky { --line-color: #00ABEA; --line-color-alt: #0D91C0; --line-soft: #E0F5FC; }
 .marzia-line-lemon { --line-color: #FCF305; --line-color-alt: #D2C90D; --line-soft: #FFFEE1; }
 .marzia-line-denim { --line-color: #366092; --line-color-alt: #38567B; --line-soft: #E7ECF2; }
-.marzia-line-pink { --line-color: #FF99CC; --line-color-alt: #D483A9; --line-soft: #FFF3F9; }
-.marzia-line-mint { --line-color: #5BE292; --line-color-alt: #54BC7B; --line-soft: #EBFCF2; }
-.marzia-line-fuchsia { --line-color: #FF40FF; --line-color-alt: #D43DD0; --line-soft: #FFE8FF; }
 .marzia-line-blush { --line-color: #FFE1FD; --line-color-alt: #D4BBCF; --line-soft: #FFFBFF; }
-.marzia-line-wine { --line-color: #943541; --line-color-alt: #81353C; --line-soft: #F2E7E8; }
-.marzia-line-alert { --line-color: #FF0000; --line-color-alt: #D40B09; --line-soft: #FFE0E0; }
 
 .marzia-line-card::before {
     content: 'Linea Marzia Clinic';
@@ -2437,7 +2335,6 @@ html[lang="en"] .marzia-line-card::before {
     .before-after-section,
     .reviews-section,
     .products-intro-section,
-    .products-categories-section,
     .marzia-products-section,
     .products-cta-band {
         padding: 80px 30px;
@@ -2512,11 +2409,10 @@ html[lang="en"] .marzia-line-card::before {
     }
 
     .products-intro-image {
-        min-height: 420px;
-    }
-
-    .product-category-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        justify-self: center;
+        width: 100%;
+        max-width: 560px;
+        min-height: 620px;
     }
 
     .marzia-line-grid {
@@ -2594,7 +2490,6 @@ html[lang="en"] .marzia-line-card::before {
     }
 
     .products-intro-section,
-    .products-categories-section,
     .before-after-section,
     .marzia-products-section,
     .products-cta-band {
@@ -2602,11 +2497,7 @@ html[lang="en"] .marzia-line-card::before {
     }
 
     .products-intro-image {
-        min-height: 330px;
-    }
-
-    .product-category-grid {
-        grid-template-columns: 1fr;
+        min-height: clamp(460px, 112vw, 620px);
     }
 
     .marzia-products-intro {
@@ -2621,10 +2512,6 @@ html[lang="en"] .marzia-line-card::before {
     .marzia-line-card {
         min-height: auto;
         padding: 28px 22px;
-    }
-
-    .product-category-card {
-        min-height: auto;
     }
 
     .contact-section {
@@ -2967,11 +2854,6 @@ html[lang="en"] .marzia-line-card::before {
         transform: none;
         border-color: rgba(140, 126, 109, 0.1);
         box-shadow: 0 10px 30px rgba(140, 126, 109, 0.05);
-    }
-
-    .product-category-card:hover {
-        transform: none;
-        box-shadow: 0 16px 38px rgba(83, 65, 45, 0.055);
     }
 
     .marzia-line-card:hover {

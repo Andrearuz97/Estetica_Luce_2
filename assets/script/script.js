@@ -105,8 +105,6 @@ const setupScrollReveals = () => {
         ".social-luxury-grid > .social-card-link",
         ".products-intro-copy",
         ".products-intro-image",
-        ".products-categories-section > .section-header",
-        ".product-category-grid > .product-category-card",
         ".marzia-products-intro",
         ".marzia-line-grid > .marzia-line-card",
         ".marzia-products-note",
