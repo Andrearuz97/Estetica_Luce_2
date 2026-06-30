@@ -1642,31 +1642,6 @@ html[lang="en"] .marzia-line-card::before {
     text-align: center;
 }
 
-.contact-section::before,
-.contact-section::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-}
-
-.contact-section::before {
-    width: 340px;
-    height: 340px;
-    top: -210px;
-    left: -90px;
-    border: 1px solid rgba(111, 89, 65, 0.1);
-    box-shadow: 0 0 0 60px rgba(255, 255, 255, 0.08);
-}
-
-.contact-section::after {
-    width: 240px;
-    height: 240px;
-    right: -100px;
-    bottom: -150px;
-    background: rgba(255, 255, 255, 0.16);
-}
-
 .contact-container {
     position: relative;
     z-index: 1;
