@@ -1112,11 +1112,6 @@ h1, h2, h3 {
     line-height: 1.75;
 }
 
-.review-card > .review-no-comment {
-    color: #8a7c6e;
-    font-style: italic;
-}
-
 .review-source-label {
     position: absolute;
     left: 30px;
@@ -1132,6 +1127,7 @@ h1, h2, h3 {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 25px;
     margin-top: 38px;
 }
@@ -1156,6 +1152,17 @@ h1, h2, h3 {
     color: var(--white);
     background: #786957;
     border-color: #786957;
+}
+
+.btn-google-reviews-secondary {
+    color: var(--white);
+    background: #786957;
+    border-color: #786957;
+}
+
+.btn-google-reviews-secondary:hover {
+    background: #5f5143;
+    border-color: #5f5143;
 }
 
 .reviews-footer > span {
